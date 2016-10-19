@@ -1,0 +1,46 @@
+.header
+  .container-fluid
+    .row
+      .header-wrapper
+        .header-logo
+          = embedded_svg "slate_logo.svg"
+        .main_menu
+          nav.navbar
+            .navbar-header
+              button.navbar-toggle.collapsed[type="button" data-toggle="collapse" data-target="#main_menu" aria-expanded="false"]
+                a.navbar-brand[href="#"]
+                  span.glyphicon.glyphicon-menu-hamburger
+                  | Menu
+            #main_menu.collapse.navbar-collapse
+              ul.nav.navbar-nav
+                li class=(current_page(root_path,"active open"))
+                  = embedded_svg "icon-dashboard.svg"
+                  = link_to "Dashboard", root_path
+                - if @customer.present?
+                  li class=(current_page(customer_path(@customer), "active open"))
+                    = embedded_svg "icon-customers.svg"
+                    = link_to "Customers", customers_path, class: "cutomer_menu "
+                - else
+                  li class=(current_page(customers_path,"active open"))
+                    = embedded_svg "icon-customers.svg", class: "icon-customers"
+                    = link_to "Customers", customers_path, class: "cutomer_menu "
+                - if logged_in?(:admin)
+                  li class=(current_page(admin_path,"active open"))
+                    = embedded_svg "icon-milestones.svg", class: "icon-milestones"
+                    = link_to "Customer Milestones", admin_path
+                  li class=(current_page(areas_path,"active open"))
+                    = embedded_svg "icon-areas.svg", class: "icon-areas"
+                    = link_to "Areas", areas_path
+        .user-navbar.hidden-xs
+          ul.nav
+            li
+              a#logout_dropdown.dropdown-toggle.user_name_img href="#" data-toggle="dropdown" role="button"
+                = image_tag current_user.image.url, class: "img-circle"
+                span= current_user.name
+                = embedded_svg "icon-downarrow.svg", class: "icon-downarrow"
+
+              ul.dropdown-menu.notif_dropdown.notif_logout
+                li
+                  = link_to "Logout", destroy_user_session_path, method: :delete
+                li
+                  = link_to "Edit Profile", edit_rep_path(current_user)

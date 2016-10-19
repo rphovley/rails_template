@@ -1,0 +1,9 @@
+.breadcrumbs.dashboard_breadcrumbs
+  - if defined?(route) && !route.blank?
+    ol.breadcrumb
+      li
+        = link_to breadcrumb, route
+      li #{breadcrumb2}
+  - else
+    ol.breadcrumb
+      li #{breadcrumb}
